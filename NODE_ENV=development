@@ -1,0 +1,13 @@
+[32m 	Additional dependencies must be installed. This will only take a moment.
+[0m 
+[32m 	Running: npm install vue-template-compiler --save-dev --production=false
+[0m 
+[32m 	Okay, done. The following packages have been installed and saved to your package.json dependencies list:
+[0m 
+[32m 	- vue-template-compiler
+[0m 
+ DONE  Compiled successfully in 5940ms下午2:35:04
+
+       Asset      Size   Chunks             Chunk Names
+/css/app.css   178 KiB  /js/app  [emitted]  /js/app
+  /js/app.js  1.08 MiB  /js/app  [emitted]  /js/app
