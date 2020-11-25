@@ -13,19 +13,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {!! Form::open(['route' => 'projects.store','method'=>'POST']) !!}
-                <div class="modal-body">
-                    <div class="form-group">
-                        {!! Form::label('name', '项目名称') !!}
-                        {!! Form::text('name', '', ['class' => 'form-control']) !!}
-                    </div>
-                    <div class="form-group">
-                        {!! Form::label('thumnail', '缩略图') !!}
-                        {!! Form::file('thumnail', ['class' => 'form-control-file']) !!}
-                    </div>
-
+            {!! Form::open(['route' => 'projects.store', 'method' => 'POST', 'files' => 'true']) !!}
+            <div class="modal-body">
+                <div class="form-group">
+                    {!! Form::label('name', '项目名称') !!}
+                    {!! Form::text('name', '', ['class' => 'form-control']) !!}
                 </div>
+                <div class="form-group">
+                    {!! Form::label('thumbnail', '缩略图') !!}
+                    {!! Form::file('thumbnail', ['class' => 'form-control-file']) !!}
+                </div>
+                @include('errors.error')
+            </div>
             <div class="modal-footer">
+
                 {!! Form::submit('新建项目', ['class' => 'btn btn-primary']) !!}
             </div>
             {!! Form::close() !!}
