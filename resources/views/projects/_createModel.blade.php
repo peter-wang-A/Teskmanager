@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createProjectModal">
+<button type="button" class="btn model-trigger" data-toggle="modal" data-target="#createProjectModal">
     <i class="fa fa-btn fa-plus"></i>
 </button>
 
@@ -18,12 +18,15 @@
                 <div class="form-group">
                     {!! Form::label('name', '项目名称') !!}
                     {!! Form::text('name', '', ['class' => 'form-control']) !!}
+                    {!! $errors->create->first('name', '<div class="alert alert-danger my-2">:message</div>') !!}
                 </div>
                 <div class="form-group">
                     {!! Form::label('thumbnail', '缩略图') !!}
                     {!! Form::file('thumbnail', ['class' => 'form-control-file']) !!}
+                    {!! $errors->create->first('thumbnail', '<div class="alert alert-danger my-2">:message</div>') !!}
+
                 </div>
-                @include('errors.error')
+
             </div>
             <div class="modal-footer">
 

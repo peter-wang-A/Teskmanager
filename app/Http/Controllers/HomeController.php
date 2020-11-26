@@ -27,10 +27,5 @@ class HomeController extends Controller
     }
 
 
-    public function root()
-    {
-        //获取当前用户的所有项目
-        $projects = request()->user()->projects->all();
-        return view('welcome',compact('projects'));
-    }
+
 }

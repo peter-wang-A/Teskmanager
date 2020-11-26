@@ -2,27 +2,28 @@
 
 @section('content')
     <div class="container">
-
-
         <div class="card-deck">
-            @foreach ($projects as $project)
-                <div class="col-4">
-                    <div class="card">
-                        <img src="{{ asset('storage/thums/original/' . $project->thumbnail) }}" class="card-img-top"
-                            alt="...">
-
-                        <div class="card-body">
-                            <h5 class="card-title">{{ $project->name }}--{{ $project->thumbnail }}</h5>
-
-                        </div>
+            @each('projects._card',$projects,'project')
+                <div class="card col-4 my-3">
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        @include('projects._createModel')
                     </div>
-                </div>
-            @endforeach
+            </div>
         </div>
-
-
-
-
-        @include('projects._createModel')
     </div>
+@endsection
+
+
+@section('customJS')
+    <script>
+        $(document).ready(function() {
+            $('.icon-bar').hide();
+            $('.projectCard').hover(function() {
+                $('.icon-bar').toggle();
+
+            });
+        })
+
+    </script>
+
 @endsection

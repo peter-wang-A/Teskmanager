@@ -2,11 +2,11 @@
 
 
 
-Route::get('/', 'HomeController@root')->name('root');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'ProjectsController@index')->name('index');
 
 
-Route::post('projects', 'ProjectsComntroller@store')->name('projects.store');
+Route::resource('projects', 'ProjectsController');
+Route::resource('tasks', 'TasksController');
