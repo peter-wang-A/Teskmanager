@@ -6,7 +6,7 @@ use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Repositories\ProjectRepository;
 use Illuminate\Http\Request;
-
+use App\Project;
 
 
 class ProjectsController extends Controller
@@ -54,9 +54,16 @@ class ProjectsController extends Controller
         $projects =  $this->repo->list();
         return view('welcome', compact('projects'));
     }
-    public function show($id)
+    public function show(Project $project)
     {
-        $pro = $this->repo->find($id);
-        return view('projects.show', compact('pro'));
+        $projects = request()->user()->projects()->pluck('name','id')->all();
+        // dd($projects);
+        // 找到一个project 下面所有项目
+        $todos = $this->repo->todos($project);
+        //获取已经完成的
+        $dones = $this->repo->dones($project);
+
+        // dd($todos);
+        return view('projects.show', compact('project', 'todos', 'dones', 'projects'));
     }
 }

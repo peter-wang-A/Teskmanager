@@ -2,7 +2,6 @@
 
 @section('content')
     <div class="container">
-        @include('tasks._create')
-
+        @include('tasks._list',$project)
     </div>
 @endsection

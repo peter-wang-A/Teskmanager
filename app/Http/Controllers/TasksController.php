@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\TaskRepository as Task;
+use App\Repositories\TaskRepository as TaskRep;
+use App\Task;
+use App\Http\Requests\CreateTask;
+use App\Http\Requests\UpdateTaskRequest;
 
 class TasksController extends Controller
 {
     protected $task;
-    public function __construct(Task $task)
+    public function __construct(TaskRep $task)
     {
         // dd($task);
-        // $this->$task = $task;
+        $this->task = $task;
+        $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -20,7 +24,12 @@ class TasksController extends Controller
      */
     public function index()
     {
-        //
+        // 查出当前用户项目 ID
+        $todos = $this->task->todos();
+        $dones = $this->task->dones();
+        $projects = request()->user()->projects->pluck('name', 'id');
+        // dd($projects);
+        return view('tasks.index', compact('todos', 'dones', 'projects'));
     }
 
     /**
@@ -39,9 +48,10 @@ class TasksController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTask $request)
     {
-        dd($request->id);
+        $this->task->create($request);
+        return back();
     }
 
     /**
@@ -55,6 +65,11 @@ class TasksController extends Controller
         //
     }
 
+    public function check($id)
+    {
+        $this->task->check($id);
+        return back();
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -73,9 +88,11 @@ class TasksController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateTaskRequest $request, $id)
     {
-        //
+        $this->task->update($request, $id);
+        // dd($id);
+        return back();
     }
 
     /**
@@ -86,6 +103,7 @@ class TasksController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->task->delete($id);
+        return back();
     }
 }
