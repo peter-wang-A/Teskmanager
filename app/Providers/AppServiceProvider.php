@@ -2,7 +2,11 @@
 
 namespace App\Providers;
 
+use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
+use App\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Carbon::setLocale('zh');
     }
 }

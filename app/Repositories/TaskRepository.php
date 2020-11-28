@@ -29,11 +29,20 @@ class TaskRepository
 
     public function todos()
     {
-        return request()->user()->tasks()->where('completion', 0)->paginate(4);
+        return request()->user()->tasks()->orderBy('id', 'desc')->where('completion', 0)->paginate(10);
     }
     public function dones()
     {
-        return request()->user()->tasks()->where('completion', 1)->paginate(4);
+        return request()->user()->tasks()->orderBy('id', 'desc')->where('completion', 1)->paginate(10);
+    }
+
+    public function todoCount()
+    {
+        return request()->user()->tasks()->where('completion', 0)->count();
+    }
+    public function doneCount()
+    {
+        return request()->user()->tasks()->where('completion', 1)->count();
     }
 
     //编辑项目

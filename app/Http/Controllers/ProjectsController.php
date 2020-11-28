@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateProjectRequest;
 use App\Repositories\ProjectRepository;
 use Illuminate\Http\Request;
 use App\Project;
+use Illuminate\Support\Carbon;
 
 
 class ProjectsController extends Controller
@@ -56,7 +57,7 @@ class ProjectsController extends Controller
     }
     public function show(Project $project)
     {
-        $projects = request()->user()->projects()->pluck('name','id')->all();
+        $projects = request()->user()->projects()->pluck('name', 'id')->all();
         // dd($projects);
         // 找到一个project 下面所有项目
         $todos = $this->repo->todos($project);

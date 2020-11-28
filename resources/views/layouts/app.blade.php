@@ -63,7 +63,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                             document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                     document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
@@ -83,6 +83,13 @@
             @yield('content')
         </main>
     </div>
+    @auth
+        <footer class="footer mt-auto py-3">
+            <div class="container">
+                <div>当前共有 {{ $total }} 条数据,已完成{{ $doneCount }}条,未完成{{ $todoCount }}条</div>
+            </div>
+        </footer>
+    @endauth
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
     @yield('customJS')

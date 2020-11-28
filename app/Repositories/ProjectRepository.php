@@ -59,12 +59,12 @@ class ProjectRepository
     //未完成项目
     public function todos($project)
     {
-        return $todos = $project->tasks()->where('completion', (int) false)->get();
+        return $todos = $project->tasks()->orderBy('id', 'desc')->where('completion', (int) false)->get();
     }
     //已完成项目
     public function dones($project)
     {
-        return $dones = $project->tasks()->where('completion', (int) true)->get();
+        return $dones = $project->tasks()->orderBy('id', 'desc')->where('completion', (int) true)->get();
     }
 
     //修改图片从尺寸,封装函数

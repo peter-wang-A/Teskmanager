@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
+use Illuminate\Support\Carbon;
 
 class Task extends Model
 {
@@ -15,9 +16,9 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    //属性获取器
-    // public function getProjectListAttribute()
+    // // 属性获取器
+    // public function getUpdatedAtAttribute($value)
     // {
-    //     return $this->project->id;
+    //     return $value->diffForHumans();
     // }
 }
