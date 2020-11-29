@@ -23,10 +23,8 @@
             $('.icon-bar').hide();
             $('.projectCard').hover(function() {
                 $('.icon-bar').toggle();
-
             });
         })
 
     </script>
-
 @endsection

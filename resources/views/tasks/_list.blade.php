@@ -12,12 +12,13 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
 
-    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+    <div class="tab-pane fade show active my-3" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        <tr class="mt-2 mb-3">
+            <td colspan="4"> @include('tasks._create',$project)</td>
+        </tr>
         @if (count($todos) > 0)
             <table class="table table-striped">
-                <tr class="mt-2 mb-3">
-                    <td colspan="4"> @include('tasks._create',$project)</td>
-                </tr>
+
                 @foreach ($todos as $todo)
                     <tr class="">
                         <td class="col-9 ">

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\Project;
 use Illuminate\Support\Carbon;
+use App\Step;
 
 class Task extends Model
 {
@@ -16,9 +17,8 @@ class Task extends Model
         return $this->belongsTo(Project::class);
     }
 
-    // // 属性获取器
-    // public function getUpdatedAtAttribute($value)
-    // {
-    //     return $value->diffForHumans();
-    // }
+    public function steps()
+    {
+        return $this->hasMany(Step::class);
+    }
 }

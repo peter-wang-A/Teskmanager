@@ -11,12 +11,10 @@
                     data-target="#editModal--{{ $project->id }}">
                     <i class="fa fa-btn fa-cog"></i>
                 </button>
-
             </li>
 
         </ul>
         <a href="{{ route('projects.show', $project->id) }}">
-
             <img src="{{ $project->thumbnail ?? config('app.url') . '/uploads/' . 'demo.jpg' }}" class="card-img-top" alt="...">
             <div class="card-body py-3">
                 <h6 class="card-title text-center">{{ $project->name }}</h6>

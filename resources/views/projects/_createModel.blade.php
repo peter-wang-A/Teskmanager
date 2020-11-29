@@ -10,7 +10,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" id="createProjectModal">新建项目</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+
                 </button>
             </div>
             {!! Form::open(['route' => 'projects.store', 'method' => 'POST', 'files' => 'true']) !!}
