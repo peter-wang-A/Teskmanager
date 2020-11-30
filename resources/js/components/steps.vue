@@ -29,25 +29,9 @@
           </ul>
         </div>
       </div>
-      <div class="card mt-2">
-        <div class="from-group">
-          <div class="card-header">
-            <label v-if="!message">添加什么内容呢？</label>
-            <input
-              type="text"
-              ref="addInput"
-              v-model="message"
-              @keyup.enter="addStep"
-              name=""
-              id=""
-              class="form-control my-3"
-            />
-            <button class="btn btn-sm btn-success float-right" v-show="message">
-              添加步骤
-            </button>
-          </div>
-        </div>
-      </div>
+
+      <!-- 输入框组件 -->
+      <stepInput :route="route" @add="push"></stepInput>
     </div>
 
     <div class="card col-4 ml-5">
@@ -55,13 +39,16 @@
         <span
           >已完成的步骤<span v-show="processed.length"
             >({{ processed.length }})</span
-          >：<button
+          >：
+
+          <button
             v-on:click="removePro()"
+            v-if="processed.length > 0"
             class="btn btn-sm btn-danger float-right"
           >
             删除所有
-          </button></span
-        >
+          </button>
+        </span>
       </div>
       <div class="card-body">
         <ul class="list-group">
@@ -83,14 +70,18 @@
 </template>
 
 <script>
+import stepInput from "./step-input";
+
 export default {
   name: "",
   data() {
     return {
       steps: [],
-      message: "",
       comple: false,
     };
+  },
+  components: {
+    stepInput,
   },
   props: ["route"],
 
@@ -120,20 +111,27 @@ export default {
           console.log(err.response);
         });
     },
-    addStep() {
-      this.steps.push({
-        name: this.message,
-        complection: this.comple,
-      });
-      this.message = "";
-      this.comple = false;
+    push(e) {
+      this.steps.push(e);
     },
     toggle(item) {
-      item.complection = !item.completion;
+      axios
+        .patch(this.route + "/" + item.id, {
+          completion: !item.completion,
+        })
+        .then((res) => {
+          if (res.data.code == 200) {
+            item.completion = !item.completion;
+          }
+        });
     },
-    remove(step) {
-      let i = this.steps.indexOf(step);
-      this.steps.splice(i, 1);
+    async remove(step) {
+      let res = await axios.delete(this.route + "/" + step.id);
+      if (res.data.code === 200) {
+        let i = this.steps.indexOf(step);
+        this.steps.splice(i, 1);
+      }
+      return res;
     },
     edit(step) {
       this.message = step.name;
@@ -141,13 +139,21 @@ export default {
       this.remove(step);
       this.$refs.addInput.focus();
     },
-    dones(inPro) {
-      inPro.forEach((element) => {
-        return (element.completion = true);
-      });
+    async dones(inPro) {
+      console.log(this.route + "/doneAll");
+      let doneRes = await axios.post(`${this.route}/doneAll`);
+      if (doneRes.data.code === 200) {
+        inPro.forEach((element) => {
+          return (element.completion = true);
+        });
+      }
     },
-    removePro() {
-      this.steps = this.inProcess;
+    async removePro() {
+      let removeRes = await axios.delete(`${this.route}/clearAll`);
+      if (removeRes.data.code === 200) {
+        alert(removeRes.data.msg);
+        this.steps = this.inProcess;
+      }
     },
   },
 };

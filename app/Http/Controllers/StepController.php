@@ -36,9 +36,13 @@ class StepController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Task $task, Request $request)
     {
-        //
+        return response()->json([
+            'step' => $task->steps()->create([
+                'name' => $request->name
+            ])
+        ], 201);
     }
 
     /**
@@ -70,9 +74,15 @@ class StepController extends Controller
      * @param  \App\Step  $step
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Step $step)
+    public function update(Request $request, Task $task, Step $step)
     {
-        //
+        $step->update([
+            'completion' => $request->completion
+        ]);
+        return response()->json([
+            'code' => 200,
+            'msg' => '修改成功'
+        ]);
     }
 
     /**
@@ -81,8 +91,32 @@ class StepController extends Controller
      * @param  \App\Step  $step
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Step $step)
+    public function destroy(Task $task, Step $step)
     {
-        //
+        $step->delete();
+        return response()->json([
+            'code' => 200,
+            'msg' => '删除成功'
+        ]);
+    }
+
+    public function doneAll(Task $task)
+    {
+        $task->steps()->update([
+            'completion' => 1
+        ]);
+        return response()->json([
+            'code' => 200,
+            'msg' => '修改成功'
+        ]);
+    }
+
+    public function clearAll(Task $task)
+    {
+        $task->steps()->where('completion', 1)->delete();
+        return response()->json([
+            'code' => 200,
+            'msg' => '删除成功'
+        ]);
     }
 }
