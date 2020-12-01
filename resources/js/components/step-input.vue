@@ -12,7 +12,11 @@
           id=""
           class="form-control my-3"
         />
-        <button class="btn btn-sm btn-success float-right" v-show="message">
+        <button
+          class="btn btn-sm btn-success float-right"
+          v-show="message"
+          @click="addStep"
+        >
           添加步骤
         </button>
       </div>
@@ -21,21 +25,36 @@
 </template>
 
 <script>
+import { Hub } from "../event-bus";
 export default {
   name: "",
   data() {
     return {
       message: "",
+      comple: false,
     };
   },
-  props: ["route"],
+  props: {
+    route: {
+      type: String,
+    },
+  },
+  created() {
+    Hub.$on("edit", this.edit);
+    // Hub.$on('step',this.edit)
+  },
   methods: {
     addStep() {
       axios.post(this.route, { name: this.message }).then((res) => {
-          this.$emit('add',res.data.step)
+        this.$emit("add", res.data.step);
         // this.steps.push(res.data.step);
         this.message = "";
       });
+    },
+    edit(step) {
+      this.message = step.name;
+      this.comple = step.completion;
+      this.$refs.addInput.focus();
     },
   },
 };

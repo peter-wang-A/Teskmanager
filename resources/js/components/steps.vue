@@ -1,92 +1,73 @@
 <template>
   <div class="row justify-content-center">
-    <div class="card col-4">
-      <div class="card-header">
-        <span
-          >待完成的步骤<span v-show="inProcess.length"
-            >({{ inProcess.length }})</span
-          >：<button
-            v-on:click="dones(inProcess)"
-            class="float-right btn btn-sm btn-success"
-          >
-            完成所有
-          </button></span
-        >
-
-        <div class="card-body">
-          <ul class="list-group">
-            <li
-              class="list-group-item"
-              v-for="(item, index) in inProcess"
-              :key="index"
+    <div class="col-4 mr-3">
+      <slot>
+        <div class="card-header">
+          <span
+            >已完成的步骤<span v-show="inProcess.length"
+              >({{ inProcess.length }})</span
+            >：
+            <button
+              v-on:click="dones(inProcess)"
+              v-if="inProcess.length > 0"
+              class="btn btn-sm btn-success float-right"
             >
-              <span v-on:dblclick="edit(item)"> {{ item.name }}</span>
-              <span class="float-right">
-                <i class="fa fa-check" v-on:click="toggle(item)"></i>
-                <i class="fa fa-times" v-on:click="remove(item)"></i>
-              </span>
-            </li>
-          </ul>
+              完成所有
+            </button>
+          </span>
         </div>
-      </div>
+      </slot>
+      <step-list :steps="inProcess" :route="route" @remove="remove"></step-list>
 
       <!-- 输入框组件 -->
-      <stepInput :route="route" @add="push"></stepInput>
+      <step-input :route="route" @add="push"></step-input>
     </div>
 
-    <div class="card col-4 ml-5">
-      <div class="card-header">
-        <span
-          >已完成的步骤<span v-show="processed.length"
-            >({{ processed.length }})</span
-          >：
-
-          <button
-            v-on:click="removePro()"
-            v-if="processed.length > 0"
-            class="btn btn-sm btn-danger float-right"
-          >
-            删除所有
-          </button>
-        </span>
-      </div>
-      <div class="card-body">
-        <ul class="list-group">
-          <li
-            class="list-group-item"
-            v-for="(item, index) in processed"
-            :key="index"
-          >
-            <span v-on:dblclick="edit(item)"> {{ item.name }}</span>
-            <span class="float-right">
-              <i class="fa fa-check" v-on:click="toggle(item)"></i>
-              <i class="fa fa-times" v-on:click="remove(item)"></i>
-            </span>
-          </li>
-        </ul>
-      </div>
+    <div class="col-4 mr-3">
+      <slot>
+        <div class="card-header">
+          <span
+            >已完成的步骤<span v-show="processed.length"
+              >({{ processed.length }})</span
+            >：
+            <button
+              v-on:click="removePro()"
+              v-if="processed.length > 0"
+              class="btn btn-sm btn-danger float-right"
+            >
+              删除所有
+            </button>
+          </span>
+        </div>
+      </slot>
+      <step-list :steps="processed" :route="route" @remove="remove"></step-list>
     </div>
   </div>
 </template>
 
 <script>
 import stepInput from "./step-input";
+import stepList from "./step-list";
+import { Hub } from "../event-bus.js";
 
 export default {
   name: "",
   data() {
     return {
-      steps: [],
-      comple: false,
+      steps: this.initial,
     };
   },
   components: {
-    stepInput,
+    "step-input": stepInput,
+    "step-list": stepList,
   },
-  props: ["route"],
+  props: {
+    route: String,
+    initial: Array,
+  },
 
   created() {
-    this.getStepsData();
+    // this.getStepsData();
   },
   computed: {
     inProcess() {
@@ -102,15 +83,15 @@ export default {
   },
   methods: {
     getStepsData() {
-      axios
-        .get(this.route)
-        .then((res) => {
-          this.steps = res.data.steps;
-        })
-        .catch((err) => {
-          console.log(err.response);
-        });
-    },
+    //   axios
+    //     .get(this.route)
+    //     .then((res) => {
+    //       this.steps = res.data.steps;
+    //     })
+    //     .catch((err) => {
+    //       console.log(err.response);
+    //     });
+    // },
     push(e) {
       this.steps.push(e);
     },
@@ -126,21 +107,14 @@ export default {
         });
     },
     async remove(step) {
-      let res = await axios.delete(this.route + "/" + step.id);
-      if (res.data.code === 200) {
-        let i = this.steps.indexOf(step);
-        this.steps.splice(i, 1);
-      }
-      return res;
+      let i = this.steps.indexOf(step);
+      this.steps.splice(i, 1);
     },
     edit(step) {
-      this.message = step.name;
-      this.comple = step.completion;
       this.remove(step);
-      this.$refs.addInput.focus();
+      Hub.$emit("edit", step);
     },
     async dones(inPro) {
-      console.log(this.route + "/doneAll");
       let doneRes = await axios.post(`${this.route}/doneAll`);
       if (doneRes.data.code === 200) {
         inPro.forEach((element) => {
