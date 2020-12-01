@@ -40,18 +40,20 @@ export default {
     },
   },
   created() {
+    this.editStep = "";
     Hub.$on("edit", this.edit);
-    // Hub.$on('step',this.edit)
   },
   methods: {
     addStep() {
       axios.post(this.route, { name: this.message }).then((res) => {
-        this.$emit("add", res.data.step);
-        // this.steps.push(res.data.step);
-        this.message = "";
+        window.location.reload();
+        if (this.editStep) {
+          Hub.$emit("del", this.editStep);
+        }
       });
     },
     edit(step) {
+      this.editStep = step;
       this.message = step.name;
       this.comple = step.completion;
       this.$refs.addInput.focus();
