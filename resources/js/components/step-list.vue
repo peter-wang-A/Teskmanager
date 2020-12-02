@@ -16,7 +16,9 @@
               type="text"
               style="display: none"
               ref="stepInput"
-              v-model="stepTitle"
+              @keyup.enter="updateStep(item)"
+              v-model="editedName"
+              class="form-control"
             />
             <span class="float-right">
               <i class="fa fa-check" v-on:click="toggle(item)"></i>
@@ -35,7 +37,7 @@ export default {
   name: "",
   data() {
     return {
-      stepTitle: "",
+      editedName: "",
     };
   },
   props: {
@@ -51,7 +53,7 @@ export default {
   methods: {
     toggle(item) {
       axios
-        .patch(this.route + "/" + item.id, {
+        .patch(this.route + "/" + item.id + "/toggle", {
           completion: !item.completion,
         })
         .then((res) => {
@@ -69,7 +71,20 @@ export default {
     edit(step, index) {
       this.$refs.stepName[index].style.display = "none";
       this.$refs.stepInput[index].style.display = "block";
-      this.stepTitle = step.name;
+      this.editedName = step.name;
+      this.$refs.stepInput[index].focus();
+    },
+    async updateStep(step) {
+      let res = await axios.patch(this.route + "/" + step.id, {
+        stepName: this.editedName,
+      }).catch(error=>{
+          alert('wrong')
+      });
+
+      if (res.data.code === 200) {
+        window.location.reload();
+        alert(res.data.msg);
+      }
     },
   },
 };

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Step;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateStep;
 use App\Task;
 
 class StepController extends Controller
@@ -15,9 +16,11 @@ class StepController extends Controller
      */
     public function index(Task $task)
     {
-        return response()->json([
-            'steps' => $task->steps,
-        ]);
+        $steps =  $task->steps;
+        $todos = $steps->where('completion', 0)->values();
+        $dones = $steps->where('completion', 1)->values();
+        // dd($todos);
+        return view('steps.index', compact('task', 'steps', 'todos', 'dones'));
     }
 
     /**
@@ -36,9 +39,10 @@ class StepController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Task $task, Request $request)
+    public function store(Task $task, CreateStep $request)
     {
         $task->steps()->create(['name' => $request->name]);
+        return back();
     }
 
     /**
@@ -70,7 +74,18 @@ class StepController extends Controller
      * @param  \App\Step  $step
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task, Step $step)
+    public function update(CreateStep $request, Task $task, Step $step)
+    {
+        // dd($step);
+        $step->update([
+            'name' => $request->stepName,
+        ]);
+        return response()->json([
+            'code' => 200,
+            'msg' => '修改成功~'
+        ]);
+    }
+    public function toggle(CreateStep $request, Task $task, Step $step)
     {
         $step->update([
             'completion' => $request->completion

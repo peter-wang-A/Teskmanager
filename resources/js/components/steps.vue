@@ -20,7 +20,7 @@
       <step-list :steps="inProcess" :route="route"></step-list>
 
       <!-- 输入框组件 -->
-      <step-input :route="route"></step-input>
+      <step-input :route="route" :errors="errors"></step-input>
     </div>
 
     <div class="col-4 mr-3">
@@ -60,6 +60,7 @@ export default {
     route: String,
     inProcess: Array,
     processed: Array,
+    errors: String,
   },
   created() {},
   computed: {},

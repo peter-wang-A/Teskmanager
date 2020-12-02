@@ -20,7 +20,10 @@ class TaskRepository
         $task->completion = (int) true;
         $task->save();
     }
-
+    public function all()
+    {
+        return request()->user()->tasks;
+    }
     //查找项目
     public function find($id)
     {
