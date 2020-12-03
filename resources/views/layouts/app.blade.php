@@ -35,9 +35,14 @@
                         @if (Auth::check())
                             <li class="nav-item">
                                 <a href="{{ route('tasks.index') }}" class="nav-link ">所有项目</a>
+
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('tasks.charts') }}" class="nav-link ">图标统计</a>
+
                             </li>
                         @endif
-                        <search class="ml-5" ></search>
+                        <search class="ml-5"></search>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -64,7 +69,7 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                                                                                                                 document.getElementById('logout-form').submit();">
+                                                                                                                                                                                                                                             document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 

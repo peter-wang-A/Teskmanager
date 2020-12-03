@@ -10,6 +10,7 @@ Route::get('/', 'ProjectsController@index')->name('index');
 
 Route::resource('projects', 'ProjectsController');
 Route::get('/tasks/search', 'TasksController@search')->name('search');
+Route::get('tasks/charts', 'TasksController@charts')->name('tasks.charts');
 Route::resource('tasks', 'TasksController');
 
 //完成所有
@@ -21,4 +22,4 @@ Route::patch('tasks/{task}/steps/{step}/toggle', 'StepController@toggle');
 Route::resource('tasks.steps', 'StepController');
 
 
-Route::post('tasks/{id}/chechk', 'TasksController@check')->name('tasks.check');
+Route::post('tasks/{id}/check', 'TasksController@check')->name('tasks.check');

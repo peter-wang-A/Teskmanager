@@ -7,6 +7,7 @@ use App\Repositories\TaskRepository as TaskRep;
 use App\Task;
 use App\Http\Requests\CreateTask;
 use App\Http\Requests\UpdateTaskRequest;
+use App\Project;
 
 class TasksController extends Controller
 {
@@ -25,7 +26,7 @@ class TasksController extends Controller
     public function search()
     {
         return response()->json([
-            'name' => $this->task->all(),
+            'tasks' => $this->task->all(),
         ], 200);
     }
     public function index()
@@ -110,5 +111,18 @@ class TasksController extends Controller
     {
         $this->task->delete($id);
         return back();
+    }
+
+    public function charts()
+    {
+        $todo =  $this->task->todoCount();
+        $done =  $this->task->doneCount();
+        $total = request()->user()->tasks()->count();
+        $names = Project::pluck('name')->toArray();
+        json_encode($names);
+        $names = json_encode($names);
+        $projects = request()->user()->projects;
+
+        return view('tasks.charts', compact('total', 'todo', 'done', 'names', 'projects'));
     }
 }
