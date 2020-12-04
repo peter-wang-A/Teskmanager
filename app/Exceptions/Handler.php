@@ -3,7 +3,12 @@
 namespace App\Exceptions;
 
 use Exception;
+use Facade\FlareClient\Http\Exceptions\NotFound;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use PhpParser\Node\Stmt\Return_;
+use Psy\Exception\FatalErrorException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -50,6 +55,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        // if ($exception instanceof ModelNotFoundException) {
+        //     return back()->withErrors([
+        //         'errors'=>'not found'
+        //     ]);
+        // }
+
         return parent::render($request, $exception);
     }
 }

@@ -122,6 +122,7 @@ class TasksController extends Controller
         json_encode($names);
         $names = json_encode($names);
         $projects = request()->user()->projects;
+        $names = json_encode($projects);
 
         return view('tasks.charts', compact('total', 'todo', 'done', 'names', 'projects'));
     }

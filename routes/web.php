@@ -23,3 +23,7 @@ Route::resource('tasks.steps', 'StepController');
 
 
 Route::post('tasks/{id}/check', 'TasksController@check')->name('tasks.check');
+
+
+//错误
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index')->middleware('auth');

@@ -1,4 +1,7 @@
 require("./bootstrap");
+// require("./charts/bar.js");
+// require("./charts/pie.js");
+// require("./charts/Chart.min.js");
 
 window.Vue = require("vue");
 
