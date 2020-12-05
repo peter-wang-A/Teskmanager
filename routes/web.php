@@ -2,7 +2,7 @@
 
 
 
-
+Route::get('users/history','UsersController@history')->name('admin.users.history')->middleware(['history','auth']);
 Auth::routes();
 
 Route::get('/', 'ProjectsController@index')->name('index');

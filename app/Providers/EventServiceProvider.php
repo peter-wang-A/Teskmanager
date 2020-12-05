@@ -18,6 +18,13 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'Illuminate\Auth\Events\Login' => [
+            'App\Listeners\UpdateLastLoginOnLogin',
+        ]
+        ,
+        'App\Events\AdminAccessLog' => [
+            'App\Listeners\AdminAccessLogListener',
+        ]
     ];
 
     /**
