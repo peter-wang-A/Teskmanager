@@ -41,6 +41,9 @@
                                 <a href="{{ route('tasks.charts') }}" class="nav-link ">图标统计</a>
 
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('chart.index') }}" class="nav-link ">在线问答</a>
+                            </li>
                         @endif
                         <search class="ml-5"></search>
                     </ul>

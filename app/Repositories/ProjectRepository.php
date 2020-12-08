@@ -75,6 +75,7 @@ class ProjectRepository
             $result = $this->img->save($request->thumbnail, 'thumbs', request()->user()->id, 200, 100);
             if ($result) {
                 $path = $result['path'];
+                // dd($path);
             }
         }
         return $path;

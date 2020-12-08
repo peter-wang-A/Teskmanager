@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Pusher\Laravel\Facades\Pusher;
 
 class UsersController extends Controller
 {
@@ -16,4 +17,5 @@ class UsersController extends Controller
         // dd($histories);
         return view('auth.users.history', compact('histories','columns'));
     }
+
 }

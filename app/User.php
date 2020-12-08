@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Project;
 use App\Task;
+use App\Message;
 
 class User extends Authenticatable
 {
@@ -49,5 +50,11 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->hasManyThrough(Task::class, Project::class);
+    }
+
+    //当前用户的 messages
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
     }
 }
